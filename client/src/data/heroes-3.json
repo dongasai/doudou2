@@ -1,0 +1,434 @@
+{
+  "heroes": [
+    {
+      "id": 21,
+      "name": "金刚",
+      "type": "战士",
+      "style": "特长型",
+      "specialty": "超高防御",
+      "skills": [
+        {
+          "name": "金身",
+          "type": "增益",
+          "description": "提高防御力",
+          "cooldown": 10,
+          "cost": 60
+        },
+        {
+          "name": "反伤",
+          "type": "增益",
+          "description": "反弹伤害",
+          "cooldown": 12,
+          "cost": 70
+        },
+        {
+          "name": "重击",
+          "type": "控制",
+          "description": "击晕敌人",
+          "cooldown": 15,
+          "cost": 80
+        },
+        {
+          "name": "不灭",
+          "type": "增益",
+          "description": "短暂无敌",
+          "cooldown": 25,
+          "cost": 100
+        }
+      ],
+      "stats": {
+        "hp": 1100,
+        "attack": 50,
+        "defense": 120,
+        "speed": 40
+      }
+    },
+    {
+      "id": 22,
+      "name": "魅影",
+      "type": "刺客",
+      "style": "特长型",
+      "specialty": "隐身突袭",
+      "skills": [
+        {
+          "name": "隐匿",
+          "type": "位移",
+          "description": "进入隐身",
+          "cooldown": 12,
+          "cost": 65
+        },
+        {
+          "name": "暗袭",
+          "type": "伤害",
+          "description": "背刺攻击",
+          "cooldown": 8,
+          "cost": 55
+        },
+        {
+          "name": "迷雾",
+          "type": "控制",
+          "description": "制造烟雾",
+          "cooldown": 15,
+          "cost": 75
+        },
+        {
+          "name": "夜袭",
+          "type": "伤害",
+          "description": "范围暗影打击",
+          "cooldown": 20,
+          "cost": 90
+        }
+      ],
+      "stats": {
+        "hp": 700,
+        "attack": 115,
+        "defense": 35,
+        "speed": 95
+      }
+    },
+    {
+      "id": 23,
+      "name": "药师",
+      "type": "辅助",
+      "style": "特长型",
+      "specialty": "持续恢复",
+      "skills": [
+        {
+          "name": "回春",
+          "type": "治疗",
+          "description": "持续治疗",
+          "cooldown": 8,
+          "cost": 50
+        },
+        {
+          "name": "解毒",
+          "type": "治疗",
+          "description": "清除减益",
+          "cooldown": 12,
+          "cost": 65
+        },
+        {
+          "name": "强化",
+          "type": "增益",
+          "description": "提升属性",
+          "cooldown": 15,
+          "cost": 75
+        },
+        {
+          "name": "圣泉",
+          "type": "治疗",
+          "description": "创造治疗区域",
+          "cooldown": 20,
+          "cost": 90
+        }
+      ],
+      "stats": {
+        "hp": 800,
+        "attack": 40,
+        "defense": 60,
+        "speed": 65
+      }
+    },
+    {
+      "id": 24,
+      "name": "御风",
+      "type": "射手",
+      "style": "特长型",
+      "specialty": "远程狙击",
+      "skills": [
+        {
+          "name": "瞄准",
+          "type": "伤害",
+          "description": "蓄力射击",
+          "cooldown": 6,
+          "cost": 45
+        },
+        {
+          "name": "疾风",
+          "type": "位移",
+          "description": "快速移动",
+          "cooldown": 10,
+          "cost": 60
+        },
+        {
+          "name": "散射",
+          "type": "伤害",
+          "description": "范围箭雨",
+          "cooldown": 12,
+          "cost": 70
+        },
+        {
+          "name": "神射",
+          "type": "伤害",
+          "description": "必中一击",
+          "cooldown": 18,
+          "cost": 85
+        }
+      ],
+      "stats": {
+        "hp": 650,
+        "attack": 120,
+        "defense": 30,
+        "speed": 75
+      }
+    },
+    {
+      "id": 25,
+      "name": "地师",
+      "type": "法师",
+      "style": "特长型",
+      "specialty": "地形控制",
+      "skills": [
+        {
+          "name": "土墙",
+          "type": "控制",
+          "description": "制造障碍",
+          "cooldown": 10,
+          "cost": 60
+        },
+        {
+          "name": "震荡",
+          "type": "控制",
+          "description": "地面震动",
+          "cooldown": 8,
+          "cost": 55
+        },
+        {
+          "name": "陷阱",
+          "type": "控制",
+          "description": "制造陷坑",
+          "cooldown": 12,
+          "cost": 70
+        },
+        {
+          "name": "地裂",
+          "type": "伤害",
+          "description": "造成裂痕",
+          "cooldown": 15,
+          "cost": 85
+        }
+      ],
+      "stats": {
+        "hp": 850,
+        "attack": 85,
+        "defense": 65,
+        "speed": 50
+      }
+    },
+    {
+      "id": 26,
+      "name": "战鼓",
+      "type": "辅助",
+      "style": "均衡型",
+      "specialty": "团队增益",
+      "skills": [
+        {
+          "name": "鼓舞",
+          "type": "增益",
+          "description": "提升攻击",
+          "cooldown": 10,
+          "cost": 60
+        },
+        {
+          "name": "战歌",
+          "type": "增益",
+          "description": "提升移速",
+          "cooldown": 12,
+          "cost": 65
+        },
+        {
+          "name": "震慑",
+          "type": "控制",
+          "description": "声波攻击",
+          "cooldown": 15,
+          "cost": 75
+        },
+        {
+          "name": "号角",
+          "type": "增益",
+          "description": "全队增益",
+          "cooldown": 20,
+          "cost": 90
+        }
+      ],
+      "stats": {
+        "hp": 900,
+        "attack": 60,
+        "defense": 70,
+        "speed": 65
+      }
+    },
+    {
+      "id": 27,
+      "name": "炼金",
+      "type": "法师",
+      "style": "均衡型",
+      "specialty": "元素转换",
+      "skills": [
+        {
+          "name": "炼化",
+          "type": "伤害",
+          "description": "元素攻击",
+          "cooldown": 6,
+          "cost": 45
+        },
+        {
+          "name": "转化",
+          "type": "增益",
+          "description": "属性转换",
+          "cooldown": 12,
+          "cost": 70
+        },
+        {
+          "name": "药剂",
+          "type": "治疗",
+          "description": "恢复生命",
+          "cooldown": 10,
+          "cost": 60
+        },
+        {
+          "name": "爆炸",
+          "type": "伤害",
+          "description": "范围伤害",
+          "cooldown": 15,
+          "cost": 85
+        }
+      ],
+      "stats": {
+        "hp": 820,
+        "attack": 75,
+        "defense": 55,
+        "speed": 60
+      }
+    },
+    {
+      "id": 28,
+      "name": "傀儡",
+      "type": "战士",
+      "style": "均衡型",
+      "specialty": "分身作战",
+      "skills": [
+        {
+          "name": "分身",
+          "type": "召唤",
+          "description": "创造分身",
+          "cooldown": 12,
+          "cost": 70
+        },
+        {
+          "name": "操控",
+          "type": "控制",
+          "description": "控制敌人",
+          "cooldown": 15,
+          "cost": 80
+        },
+        {
+          "name": "替身",
+          "type": "位移",
+          "description": "与分身交换",
+          "cooldown": 10,
+          "cost": 60
+        },
+        {
+          "name": "合体",
+          "type": "增益",
+          "description": "吸收分身",
+          "cooldown": 20,
+          "cost": 90
+        }
+      ],
+      "stats": {
+        "hp": 900,
+        "attack": 70,
+        "defense": 65,
+        "speed": 60
+      }
+    },
+    {
+      "id": 29,
+      "name": "灵猫",
+      "type": "刺客",
+      "style": "均衡型",
+      "specialty": "敏捷作战",
+      "skills": [
+        {
+          "name": "飞扑",
+          "type": "位移",
+          "description": "快速突进",
+          "cooldown": 8,
+          "cost": 50
+        },
+        {
+          "name": "利爪",
+          "type": "伤害",
+          "description": "连续攻击",
+          "cooldown": 6,
+          "cost": 45
+        },
+        {
+          "name": "轻盈",
+          "type": "增益",
+          "description": "提升闪避",
+          "cooldown": 12,
+          "cost": 65
+        },
+        {
+          "name": "狂野",
+          "type": "伤害",
+          "description": "爆发伤害",
+          "cooldown": 15,
+          "cost": 80
+        }
+      ],
+      "stats": {
+        "hp": 750,
+        "attack": 90,
+        "defense": 45,
+        "speed": 100
+      }
+    },
+    {
+      "id": 30,
+      "name": "御剑",
+      "type": "战士",
+      "style": "均衡型",
+      "specialty": "剑术精通",
+      "skills": [
+        {
+          "name": "御气",
+          "type": "增益",
+          "description": "强化攻击",
+          "cooldown": 10,
+          "cost": 55
+        },
+        {
+          "name": "剑阵",
+          "type": "控制",
+          "description": "剑气封锁",
+          "cooldown": 12,
+          "cost": 70
+        },
+        {
+          "name": "破空",
+          "type": "伤害",
+          "description": "远程斩击",
+          "cooldown": 8,
+          "cost": 60
+        },
+        {
+          "name": "剑舞",
+          "type": "伤害",
+          "description": "范围攻击",
+          "cooldown": 15,
+          "cost": 85
+        }
+      ],
+      "stats": {
+        "hp": 880,
+        "attack": 95,
+        "defense": 60,
+        "speed": 70
+      }
+    }
+  ]
+} 

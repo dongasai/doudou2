@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "phaser": "^3.60.0"
+  },
+  "scripts": {
+    "sync-configs": "node scripts/sync-configs.js",
+    "presync-configs": "mkdir -p src/data client/src/data"
+  }
+}
