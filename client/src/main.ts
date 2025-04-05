@@ -1,5 +1,7 @@
 import 'phaser';
 import { ConfigLoader } from './core/ConfigLoader';
+import { MainMenuScene } from './scenes/MainMenuScene';
+import { SelectScene } from './scenes/SelectScene';
 import { BattleScene } from './scenes/BattleScene';
 
 /**
@@ -11,10 +13,13 @@ async function main() {
         await ConfigLoader.getInstance().loadAllConfigs();
 
         // 创建游戏实例
-        const config = {
+        const config: Phaser.Types.Core.GameConfig = {
             type: Phaser.AUTO,
-            width: 800,
-            height: 600,
+            width: 390,  // iPhone 12/13/14 的标准宽度
+            height: 844, // iPhone 12/13/14 的标准高度
+            parent: 'game',
+            backgroundColor: '#000000',
+            scene: [MainMenuScene, SelectScene, BattleScene],
             physics: {
                 default: 'arcade',
                 arcade: {
@@ -22,7 +27,13 @@ async function main() {
                     debug: false
                 }
             },
-            scene: BattleScene
+            scale: {
+                mode: Phaser.Scale.FIT,
+                autoCenter: Phaser.Scale.CENTER_BOTH,
+                parent: 'game',
+                width: 390,
+                height: 844
+            }
         };
 
         new Phaser.Game(config);

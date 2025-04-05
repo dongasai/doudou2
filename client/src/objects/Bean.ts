@@ -12,6 +12,7 @@ import { GameObject } from './GameObject';
 export class Bean extends GameObject {
     private healthBar!: Phaser.GameObjects.Rectangle;
     private healthBarBg!: Phaser.GameObjects.Rectangle;
+    private healthBarContainer!: Phaser.GameObjects.Container;
     private type: string;
     private health: number;
     private maxHealth: number;
@@ -73,10 +74,13 @@ export class Bean extends GameObject {
         const height = 4;
         const padding = 1;
         
+        // 创建容器
+        this.healthBarContainer = this.scene.add.container(this.x, this.y - 20);
+        
         // 创建血条背景
         this.healthBarBg = this.scene.add.rectangle(
             0,
-            -20,
+            0,
             width,
             height,
             0x000000,
@@ -86,16 +90,15 @@ export class Bean extends GameObject {
         // 创建血条
         this.healthBar = this.scene.add.rectangle(
             -width/2 + padding,
-            -20,
+            0,
             width - padding * 2,
             height - padding * 2,
             0xff0000
         );
         this.healthBar.setOrigin(0, 0.5);
         
-        // 将血条添加为子对象
-        this.add(this.healthBarBg);
-        this.add(this.healthBar);
+        // 将血条和背景添加到容器
+        this.healthBarContainer.add([this.healthBarBg, this.healthBar]);
     }
 
     /**
@@ -238,5 +241,22 @@ export class Bean extends GameObject {
 
     public getSpeed(): number {
         return this.speed;
+    }
+
+    // 重写setPosition方法以更新血条位置
+    setPosition(x: number, y: number): this {
+        super.setPosition(x, y);
+        if (this.healthBarContainer) {
+            this.healthBarContainer.setPosition(x, y - 20);
+        }
+        return this;
+    }
+
+    // 重写destroy方法以清理容器
+    destroy(fromScene?: boolean) {
+        if (this.healthBarContainer) {
+            this.healthBarContainer.destroy();
+        }
+        super.destroy(fromScene);
     }
 } 

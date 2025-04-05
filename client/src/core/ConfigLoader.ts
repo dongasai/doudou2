@@ -2,14 +2,62 @@
  * 游戏配置加载器
  * 负责加载和管理游戏中的各种配置数据
  */
+export interface HeroConfig {
+    id: number;
+    name: string;
+    type: string;
+    style: string;
+    specialty: string;
+    skills: {
+        name: string;
+        type: string;
+        description: string;
+        cooldown: number;
+        cost: number;
+    }[];
+    stats: {
+        hp: number;
+        attack: number;
+        defense: number;
+        speed: number;
+    };
+}
+
+export interface LevelConfig {
+    name: string;
+    description: string;
+    difficulty: number;
+    crystal: {
+        maxHp: number;
+    };
+    beanRatios: {
+        type: string;
+        weight: number;
+    }[];
+    totalBeans: number;
+    spawnInterval: number;
+    attrFactors: {
+        hp: number;
+        attack: number;
+        defense: number;
+        speed: number;
+    };
+    victoryCondition: {
+        type: string;
+    };
+    defeatCondition: {
+        type: string;
+    };
+    background: string;
+    availableHeroSlots: number;
+}
+
 export class ConfigLoader {
     private static instance: ConfigLoader;
-    private heroesConfig: any;
-    private beansConfig: any;
+    private heroes: Map<number, HeroConfig> = new Map();
+    private levels: Map<number, LevelConfig> = new Map();
 
-    private constructor() {
-        // 私有构造函数，使用单例模式
-    }
+    private constructor() {}
 
     /**
      * 获取配置加载器实例
@@ -26,76 +74,53 @@ export class ConfigLoader {
      */
     public async loadAllConfigs(): Promise<void> {
         await Promise.all([
-            this.loadHeroesConfig(),
-            this.loadBeansConfig()
+            this.loadHeroes(),
+            this.loadLevels()
         ]);
     }
 
-    /**
-     * 加载英雄配置
-     */
-    private async loadHeroesConfig(): Promise<void> {
+    private async loadHeroes(): Promise<void> {
         try {
-            const response = await fetch('/src/data/heroes-1.json');
-            this.heroesConfig = await response.json();
+            for (let i = 1; i <= 30; i++) {
+                const response = await fetch(`/src/data/heroes/${i}.json`);
+                if (response.ok) {
+                    const hero = await response.json();
+                    this.heroes.set(hero.id, hero);
+                }
+            }
         } catch (error) {
             console.error('加载英雄配置失败:', error);
-            throw error;
         }
     }
 
-    /**
-     * 加载豆豆配置
-     */
-    private async loadBeansConfig(): Promise<void> {
+    private async loadLevels(): Promise<void> {
         try {
-            const response = await fetch('/src/data/beans.json');
-            this.beansConfig = await response.json();
+            for (let i = 1; i <= 10; i++) {
+                const response = await fetch(`/src/data/level-1/level-1-${i}.json`);
+                if (response.ok) {
+                    const level = await response.json();
+                    this.levels.set(i, level);
+                }
+            }
         } catch (error) {
-            console.error('加载豆豆配置失败:', error);
-            throw error;
+            console.error('加载关卡配置失败:', error);
         }
     }
 
-    /**
-     * 获取英雄配置
-     * @param heroId - 英雄ID
-     */
-    public getHeroConfig(heroId: number): any {
-        if (!this.heroesConfig) {
-            throw new Error('英雄配置尚未加载');
-        }
-        return this.heroesConfig.heroes.find((hero: any) => hero.id === heroId);
+    public getHero(id: number): HeroConfig | undefined {
+        return this.heroes.get(id);
     }
 
-    /**
-     * 获取所有英雄配置
-     */
-    public getAllHeroConfigs(): any[] {
-        if (!this.heroesConfig) {
-            throw new Error('英雄配置尚未加载');
-        }
-        return this.heroesConfig.heroes;
+    public getAllHeroes(): HeroConfig[] {
+        return Array.from(this.heroes.values());
     }
 
-    /**
-     * 获取豆豆配置
-     * @param beanId - 豆豆ID
-     */
-    public getBeanConfig(beanId: number): any {
-        if (!this.beansConfig) {
-            throw new Error('豆豆配置尚未加载');
-        }
-        return this.beansConfig.beans.find((bean: any) => bean.id === beanId);
+    public getLevel(id: number): LevelConfig | undefined {
+        return this.levels.get(id);
     }
 
-    /**
-     * 获取所有豆豆配置
-     */
-    public getAllBeanConfigs(): any[] {
-        if (!this.beansConfig) {
-            throw new Error('豆豆配置尚未加载');
-        }
-        return this.beansConfig.beans;
+    public getAllLevels(): LevelConfig[] {
+        return Array.from(this.levels.values());
     }
+} 
 } 

@@ -133,7 +133,7 @@ export class BattleScene extends Phaser.Scene {
         });
     }
 
-    create() {
+    create(data: { level: number; heroes: number[] }) {
         // 设置背景
         this.add.rectangle(0, 0, this.cameras.main.width, this.cameras.main.height, 0x000000)
             .setOrigin(0, 0)
@@ -154,20 +154,31 @@ export class BattleScene extends Phaser.Scene {
             { x: this.cameras.main.centerX, y: this.cameras.main.centerY }        // 中
         ];
 
-        // 创建英雄（使用英雄ID而不是类型字符串）
-        const heroIds = [1, 2, 3, 4, 5]; // 对应配置文件中的英雄ID
-        positions.forEach((pos, index) => {
-            this.battleManager.createHero(
-                `hero_${index}`,
-                heroIds[index].toString(),
-                pos
-            );
+        // 创建选择的英雄
+        data.heroes.forEach((heroId, index) => {
+            if (index < positions.length) {
+                this.battleManager.createHero(
+                    `hero_${index}`,
+                    heroId.toString(),
+                    positions[index]
+                );
+            }
         });
+
+        // 根据关卡难度设置豆豆生成
+        const spawnConfig = {
+            1: { interval: 3000, types: ['normal'] },
+            2: { interval: 2500, types: ['normal', 'fast'] },
+            3: { interval: 2000, types: ['normal', 'fast', 'strong'] },
+            4: { interval: 1500, types: ['normal', 'fast', 'strong', 'boss'] }
+        };
+
+        const levelConfig = spawnConfig[data.level as keyof typeof spawnConfig];
 
         // 设置定时生成豆豆
         this.time.addEvent({
-            delay: 2000,
-            callback: this.spawnBean,
+            delay: levelConfig.interval,
+            callback: () => this.spawnBean(levelConfig.types),
             callbackScope: this,
             loop: true
         });
@@ -252,17 +263,18 @@ export class BattleScene extends Phaser.Scene {
     /**
      * 生成豆豆
      */
-    private spawnBean(): void {
-        // 从四个角随机选择一个生成豆豆
-        const spawnPoints = [
-            { x: 0, y: 0 },
-            { x: this.cameras.main.width, y: 0 },
-            { x: 0, y: this.cameras.main.height },
-            { x: this.cameras.main.width, y: this.cameras.main.height }
-        ];
+    private spawnBean(types: string[]): void {
+        const type = types[Phaser.Math.Between(0, types.length - 1)];
+        const angle = Phaser.Math.Between(0, 360);
+        const distance = 400;
+        const x = this.cameras.main.centerX + Math.cos(angle) * distance;
+        const y = this.cameras.main.centerY + Math.sin(angle) * distance;
 
-        const spawnPoint = Phaser.Math.RND.pick(spawnPoints);
-        this.battleManager.spawnBean(spawnPoint);
+        this.battleManager.createBean(
+            `bean_${Date.now()}`,
+            type,
+            { x, y }
+        );
     }
 
     /**

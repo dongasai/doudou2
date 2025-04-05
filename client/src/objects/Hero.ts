@@ -2,14 +2,14 @@ import { GameEmojis } from '@/config/emojis';
 import { GameObject } from './GameObject';
 import { Skill } from '@/types/hero';
 
-export class Hero extends GameObject {
+export class Hero extends Phaser.GameObjects.Text {
     private name: string;
     private skills: Skill[] = [];
     private currentLevel: number = 1;
     private experience: number = 0;
+    private health: number = 100;
+    private maxHealth: number = 100;
     private stats = {
-        hp: 100,
-        maxHp: 100,
         attack: 10,
         defense: 5,
         speed: 5
@@ -21,7 +21,8 @@ export class Hero extends GameObject {
     constructor(scene: Phaser.Scene, x: number, y: number, type: string) {
         // 根据英雄类型选择对应的 Emoji
         const emoji = GameEmojis.heroes[type as keyof typeof GameEmojis.heroes] || '👤';
-        super(scene, x, y, emoji);
+        super(scene, x, y, emoji, { fontSize: '32px' });
+        scene.add.existing(this);
         
         this.type = type;
         
@@ -42,8 +43,8 @@ export class Hero extends GameObject {
         
         // 创建血条背景
         this.healthBarBg = this.scene.add.rectangle(
-            0,
-            -30,
+            this.x,
+            this.y - 30,
             width,
             height,
             0x000000,
@@ -52,25 +53,34 @@ export class Hero extends GameObject {
         
         // 创建血条
         this.healthBar = this.scene.add.rectangle(
-            -width/2 + padding,
-            -30,
+            this.x - width/2 + padding,
+            this.y - 30,
             width - padding * 2,
             height - padding * 2,
             0x00ff00
         );
         this.healthBar.setOrigin(0, 0.5);
-        
-        // 将血条添加为子对象
-        this.add(this.healthBarBg);
-        this.add(this.healthBar);
     }
 
     public takeDamage(damage: number): void {
+        this.health = Math.max(0, this.health - Math.max(0, damage - this.stats.defense));
+        this.updateHealthBar();
+        
         // 显示伤害数字
         this.showDamageNumber(damage);
         
         // 显示受击效果
         this.showHitEffect();
+        
+        if (this.health <= 0) {
+            this.die();
+        }
+    }
+
+    private updateHealthBar(): void {
+        const healthPercentage = this.health / this.maxHealth;
+        const width = this.healthBarBg.width - 4;
+        this.healthBar.width = width * healthPercentage;
     }
 
     private showDamageNumber(damage: number): void {
@@ -138,7 +148,7 @@ export class Hero extends GameObject {
     }
 
     public heal(amount: number) {
-        this.stats.hp = Math.min(this.stats.maxHp, this.stats.hp + amount);
+        this.health = Math.min(this.maxHealth, this.health + amount);
         this.updateHealthBar();
     }
 
@@ -156,8 +166,8 @@ export class Hero extends GameObject {
         this.experience = 0;
 
         // 提升属性
-        this.stats.maxHp += 20;
-        this.stats.hp = this.stats.maxHp;
+        this.maxHealth += 20;
+        this.health = this.maxHealth;
         this.stats.attack += 5;
         this.stats.defense += 2;
         this.stats.speed += 1;
@@ -185,20 +195,59 @@ export class Hero extends GameObject {
         });
     }
 
-    private die() {
+    private die(): void {
         // 死亡动画
         this.scene.tweens.add({
             targets: this,
-            alpha: 0,
             scale: 0,
-            duration: 1000,
+            alpha: 0,
+            duration: 300,
             onComplete: () => this.destroy()
+        });
+
+        // 显示特效
+        const effectEmoji = this.scene.add.text(
+            this.x,
+            this.y,
+            GameEmojis.effects.sparkle,
+            { fontSize: '32px' }
+        ).setOrigin(0.5);
+
+        this.scene.tweens.add({
+            targets: effectEmoji,
+            scale: 2,
+            alpha: 0,
+            duration: 500,
+            onComplete: () => effectEmoji.destroy()
         });
     }
 
-    update() {
-        super.update();
-        // 更新英雄的逻辑
+    public setPosition(x: number, y: number): this {
+        super.setPosition(x, y);
+        
+        // 更新血条位置
+        if (this.healthBar && this.healthBarBg) {
+            this.healthBarBg.setPosition(x, y - 30);
+            this.healthBar.setPosition(x - this.healthBarBg.width/2 + 2, y - 30);
+        }
+        
+        return this;
+    }
+
+    public destroy(): void {
+        // 清理血条
+        if (this.healthBar) {
+            this.healthBar.destroy();
+        }
+        if (this.healthBarBg) {
+            this.healthBarBg.destroy();
+        }
+        
+        super.destroy();
+    }
+
+    update(): void {
+        // 可以在这里添加更新逻辑
     }
 
     // 技能相关方法
@@ -214,10 +263,5 @@ export class Hero extends GameObject {
             // TODO: 实现技能效果
             console.log(`${this.name} 使用技能: ${skill.name}`);
         }
-    }
-
-    private updateHealthBar() {
-        const healthPercentage = this.stats.hp / this.stats.maxHp;
-        // TODO: 更新血条宽度
     }
 } 
