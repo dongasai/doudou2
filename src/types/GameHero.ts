@@ -1,4 +1,4 @@
-import type { Skill } from './HeroSkill';
+import type { Skill } from './Skill';
 
 /**
  * 英雄职业类型

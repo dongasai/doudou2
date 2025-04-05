@@ -1,7 +1,6 @@
 /// <reference types="phaser" />
 
 import * as Phaser from 'phaser';
-import { GameEmojis } from '@/config/emojis';
 import { GameObject } from './GameObject';
 
 /**
@@ -10,6 +9,19 @@ import { GameObject } from './GameObject';
  * 具有生命值、伤害值和移动速度属性
  */
 export class Bean extends GameObject {
+    private static readonly EMOJIS = {
+        types: {
+            normal: '🟤',
+            fast: '🟡',
+            strong: '🔴',
+            boss: '⚫'
+        },
+        effects: {
+            explosion: '💥',
+            sparkle: '✨'
+        }
+    };
+
     private healthBar!: Phaser.GameObjects.Rectangle;
     private healthBarBg!: Phaser.GameObjects.Rectangle;
     private healthBarContainer!: Phaser.GameObjects.Container;
@@ -27,8 +39,7 @@ export class Bean extends GameObject {
      * @param type - 豆豆类型
      */
     constructor(scene: Phaser.Scene, x: number, y: number, type: string = 'normal') {
-        // 根据豆豆类型选择对应的 Emoji
-        const emoji = GameEmojis.beans[type as keyof typeof GameEmojis.beans] || GameEmojis.beans.normal;
+        const emoji = Bean.EMOJIS.types[type as keyof typeof Bean.EMOJIS.types] || Bean.EMOJIS.types.normal;
         super(scene, x, y, emoji);
         
         this.type = type;
@@ -159,7 +170,7 @@ export class Bean extends GameObject {
         const hitEmoji = this.scene.add.text(
             this.x,
             this.y,
-            GameEmojis.effects.explosion,
+            Bean.EMOJIS.effects.explosion,
             { fontSize: '24px' }
         ).setOrigin(0.5);
 
@@ -190,7 +201,7 @@ export class Bean extends GameObject {
         const effectEmoji = this.scene.add.text(
             this.x,
             this.y,
-            GameEmojis.effects.sparkle,
+            Bean.EMOJIS.effects.sparkle,
             { fontSize: '32px' }
         ).setOrigin(0.5);
 

@@ -2,7 +2,6 @@ import { BattleManager } from '@/core/BattleManager';
 import { Hero } from '@/objects/Hero';
 import { Crystal } from '@/objects/Crystal';
 import { Bean } from '@/objects/Bean';
-import { GameEmojis } from '@/config/emojis';
 
 /** 事件数据类型 */
 interface EventData {

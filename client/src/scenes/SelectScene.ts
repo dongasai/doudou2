@@ -2,7 +2,6 @@ import { Scene } from 'phaser';
 import { ConfigLoader } from '@/core/ConfigLoader';
 import { Hero, HeroType } from '@/types/GameHero';
 import { LevelConfig } from '@/types/Level';
-import { GameEmojis } from '@/config/emojis';
 
 export class SelectScene extends Scene {
     private selectedHeroes: number[] = [];
@@ -16,6 +15,13 @@ export class SelectScene extends Scene {
         '射手': '🏹',
         '辅助': '💖',
         '刺客': '🗡️'
+    };
+
+    private levelEmojis = {
+        easy: '🏠',    // 简单
+        normal: '🌳',  // 普通
+        hard: '🌋',    // 困难
+        hell: '❄️'     // 地狱
     };
 
     constructor() {
@@ -207,10 +213,10 @@ export class SelectScene extends Scene {
     }
 
     private getDifficultyEmoji(difficulty: number): string {
-        if (difficulty <= 1.0) return '🏠'; // 简单
-        if (difficulty <= 1.5) return '🌳'; // 普通
-        if (difficulty <= 2.0) return '🌋'; // 困难
-        return '❄️'; // 地狱
+        if (difficulty <= 1.0) return this.levelEmojis.easy;
+        if (difficulty <= 1.5) return this.levelEmojis.normal;
+        if (difficulty <= 2.0) return this.levelEmojis.hard;
+        return this.levelEmojis.hell;
     }
 
     private startBattle(): void {

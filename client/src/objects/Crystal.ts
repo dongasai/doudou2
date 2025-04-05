@@ -1,11 +1,18 @@
-import { GameEmojis } from '@/config/emojis';
-
 /**
  * 水晶类
  * 作为游戏中的核心防守目标
  * 具有生命值和血条显示，需要被英雄保护
  */
 export class Crystal extends Phaser.GameObjects.Text {
+    private static readonly EMOJIS = {
+        crystal: '💎',
+        effects: {
+            explosion: '💥',
+            sparkle: '✨',
+            shield: '🛡️'
+        }
+    };
+
     /** 水晶的最大生命值 */
     private maxHealth: number = 1000;
     /** 水晶的当前生命值 */
@@ -23,7 +30,7 @@ export class Crystal extends Phaser.GameObjects.Text {
      * @param y - 初始Y坐标
      */
     constructor(scene: Phaser.Scene, x: number, y: number) {
-        super(scene, x, y, '💎', { fontSize: '48px' });
+        super(scene, x, y, Crystal.EMOJIS.crystal, { fontSize: '48px' });
         scene.add.existing(this);
         
         // 设置物理属性
@@ -160,8 +167,8 @@ export class Crystal extends Phaser.GameObjects.Text {
         const hitEmoji = this.scene.add.text(
             this.x,
             this.y,
-            this.shieldActive ? GameEmojis.effects.sparkle : GameEmojis.effects.explosion,
-            { fontSize: '32px' }
+            Crystal.EMOJIS.effects.explosion,
+            { fontSize: '24px' }
         ).setOrigin(0.5);
 
         this.scene.tweens.add({
@@ -180,7 +187,7 @@ export class Crystal extends Phaser.GameObjects.Text {
         const shield = this.scene.add.text(
             this.x,
             this.y,
-            GameEmojis.skills.shield,
+            Crystal.EMOJIS.effects.shield,
             { fontSize: '48px' }
         ).setOrigin(0.5);
         

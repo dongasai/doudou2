@@ -1,9 +1,32 @@
-import { GameEmojis } from '@/config/emojis';
 import { GameObject } from './GameObject';
-import { Skill } from '@/types/hero';
+import { Skill } from '@/types/Skill';
 
-export class Hero extends Phaser.GameObjects.Text {
-    private name: string;
+export class Hero extends GameObject {
+    private static readonly EMOJIS = {
+        effects: {
+            explosion: '💥',
+            sparkle: '✨',
+            heal: '💚',
+            shield: '🛡️'
+        },
+        heroes: {
+            '战士': '⚔️',
+            '法师': '🔮',
+            '射手': '🏹',
+            '辅助': '💖',
+            '刺客': '🗡️'
+        },
+        skills: {
+            attack: '⚔️',
+            heal: '💖',
+            shield: '🛡️',
+            buff: '⬆️',
+            debuff: '⬇️',
+            special: '✨'
+        }
+    };
+
+    private name: string = '';
     private skills: Skill[] = [];
     private currentLevel: number = 1;
     private experience: number = 0;
@@ -16,15 +39,12 @@ export class Hero extends Phaser.GameObjects.Text {
     };
     private healthBar!: Phaser.GameObjects.Rectangle;
     private healthBarBg!: Phaser.GameObjects.Rectangle;
-    private type: string;
 
     constructor(scene: Phaser.Scene, x: number, y: number, type: string) {
-        // 根据英雄类型选择对应的 Emoji
-        const emoji = GameEmojis.heroes[type as keyof typeof GameEmojis.heroes] || '👤';
-        super(scene, x, y, emoji, { fontSize: '32px' });
-        scene.add.existing(this);
+        const emoji = Hero.EMOJIS.heroes[type as keyof typeof Hero.EMOJIS.heroes] || '👤';
+        super(scene, x, y, emoji);
         
-        this.type = type;
+        this.objectType = type;
         
         // 设置物理属性
         this.setScale(1.5);
@@ -116,8 +136,8 @@ export class Hero extends Phaser.GameObjects.Text {
         const hitEmoji = this.scene.add.text(
             this.x,
             this.y,
-            GameEmojis.effects.explosion,
-            { fontSize: '32px' }
+            Hero.EMOJIS.effects.explosion,
+            { fontSize: '24px' }
         ).setOrigin(0.5);
 
         this.scene.tweens.add({
@@ -130,7 +150,7 @@ export class Hero extends Phaser.GameObjects.Text {
     }
 
     public castSkill(skillType: string): void {
-        const skillEmoji = GameEmojis.skills[skillType as keyof typeof GameEmojis.skills] || '✨';
+        const skillEmoji = Hero.EMOJIS.skills[skillType as keyof typeof Hero.EMOJIS.skills] || '✨';
         const skillEffect = this.scene.add.text(
             this.x,
             this.y,
@@ -209,7 +229,7 @@ export class Hero extends Phaser.GameObjects.Text {
         const effectEmoji = this.scene.add.text(
             this.x,
             this.y,
-            GameEmojis.effects.sparkle,
+            Hero.EMOJIS.effects.sparkle,
             { fontSize: '32px' }
         ).setOrigin(0.5);
 
