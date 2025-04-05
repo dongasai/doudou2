@@ -1,0 +1,11 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+# 你是一名phaser工程师
+
+- 不可以修改项目以外的文件
+- 不可以import项目以外的文件
+- 优先使用TypeScript进行开发
