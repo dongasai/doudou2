@@ -53,14 +53,14 @@ export class BattleManager {
      * @param position - 英雄位置
      */
     public createHero(id: string, type: string, position: Position): void {
-        // 从配置中获取英雄数据
-        const heroId = parseInt(type);
-        if (isNaN(heroId)) {
-            console.error(`无效的英雄类型: ${type}`);
+        if (!type) {
+            console.error('创建英雄时缺少类型参数');
             return;
         }
         
-        const heroConfig = ConfigLoader.getInstance().getHeroConfig(heroId);
+        // 将type转换为数字ID
+        const heroId = parseInt(type);
+        const heroConfig = ConfigLoader.getInstance().getHero(heroId);
         
         if (!heroConfig) {
             console.error(`找不到英雄配置: ${type}`);
@@ -96,27 +96,53 @@ export class BattleManager {
 
     /**
      * 生成豆豆
+     * @param id - 豆豆ID
+     * @param type - 豆豆类型
      * @param position - 生成位置
      */
-    public spawnBean(position: Position): string {
-        const id = `bean_${Date.now()}_${Math.random()}`;
-        
-        // 从配置中随机选择一个豆豆类型
-        const beanConfigs = ConfigLoader.getInstance().getAllBeanConfigs();
-        const beanConfig = beanConfigs[Math.floor(Math.random() * beanConfigs.length)];
+    public spawnBean(id: string, type: string, position: Position): void {
+        // 使用默认配置
+        const defaultBeanStats = {
+            normal: {
+                hp: 100,
+                attack: 10,
+                defense: 5,
+                speed: 100
+            },
+            fast: {
+                hp: 60,
+                attack: 8,
+                defense: 3,
+                speed: 150
+            },
+            strong: {
+                hp: 150,
+                attack: 15,
+                defense: 8,
+                speed: 80
+            },
+            boss: {
+                hp: 300,
+                attack: 20,
+                defense: 12,
+                speed: 120
+            }
+        };
+
+        const stats = defaultBeanStats[type as keyof typeof defaultBeanStats] || defaultBeanStats.normal;
         
         const beanData: BeanData = {
             id,
             position,
-            health: beanConfig.stats.hp,
-            maxHealth: beanConfig.stats.hp,
-            type: beanConfig.type,
-            damage: beanConfig.stats.attack,
-            speed: beanConfig.stats.speed
+            health: stats.hp,
+            maxHealth: stats.hp,
+            type: type,
+            damage: stats.attack,
+            speed: stats.speed
         };
+
         this.battleData.beans.set(id, beanData);
         this.emit('beanSpawned', beanData);
-        return id;
     }
 
     /**

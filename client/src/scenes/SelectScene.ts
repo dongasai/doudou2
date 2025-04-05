@@ -30,6 +30,24 @@ export class SelectScene extends Scene {
     }
 
     create(): void {
+        // 尝试从本地存储恢复上次的选择
+        const lastLevel = localStorage.getItem('lastSelectedLevel');
+        const lastHeroes = localStorage.getItem('lastSelectedHeroes');
+        
+        if (lastLevel) {
+            this.selectedLevel = parseInt(lastLevel);
+        }
+        
+        if (lastHeroes) {
+            this.selectedHeroes = JSON.parse(lastHeroes);
+        } else if (this.selectedHeroes.length === 0) {
+            // 如果没有上次选择的英雄，默认选择第一个
+            const heroes = this.configLoader.getAllHeroes();
+            if (heroes.length > 0) {
+                this.selectedHeroes = [heroes[0].id];
+            }
+        }
+        
         this.showLevelSelect();
     }
 
@@ -55,8 +73,23 @@ export class SelectScene extends Scene {
             const y = 150 + index * 120;
             const button = this.add.container(this.cameras.main.centerX, y);
 
-            const bg = this.add.rectangle(0, 0, 300, 100, 0x4CAF50, 0.3)
+            // 根据是否选中设置背景颜色
+            const isSelected = index + 1 === this.selectedLevel;
+            const bgColor = isSelected ? 0x4CAF50 : 0x333333;
+            const bgAlpha = isSelected ? 0.8 : 0.3;
+            
+            const bg = this.add.rectangle(0, 0, 300, 100, bgColor, bgAlpha)
                 .setInteractive()
+                .on('pointerover', () => {
+                    if (!isSelected) {
+                        bg.setFillStyle(0x4CAF50, 0.5);
+                    }
+                })
+                .on('pointerout', () => {
+                    if (!isSelected) {
+                        bg.setFillStyle(0x333333, 0.3);
+                    }
+                })
                 .on('pointerdown', () => this.selectLevel(index + 1));
             
             // 根据难度选择表情
@@ -66,21 +99,27 @@ export class SelectScene extends Scene {
             
             const name = this.add.text(-50, -15, level.name, {
                 fontSize: '24px',
-                color: '#ffffff',
+                color: isSelected ? '#ffffff' : '#cccccc',
                 fontFamily: '"PingFang SC", "Microsoft YaHei", sans-serif'
             });
             
             const difficulty = this.add.text(-50, 15, `难度: ${level.difficulty.toFixed(1)}`, {
                 fontSize: '16px',
-                color: '#aaaaaa',
+                color: isSelected ? '#ffffff' : '#aaaaaa',
                 fontFamily: '"PingFang SC", "Microsoft YaHei", sans-serif'
             });
 
             button.add([bg, emoji, name, difficulty]);
 
             // 选中效果
-            if (index + 1 === this.selectedLevel) {
+            if (isSelected) {
                 bg.setStrokeStyle(2, 0x00ff00);
+                // 添加选中指示器
+                const indicator = this.add.text(120, 0, '✓', {
+                    fontSize: '32px',
+                    color: '#00ff00'
+                }).setOrigin(0.5);
+                button.add(indicator);
             }
         });
 
@@ -127,30 +166,50 @@ export class SelectScene extends Scene {
             const y = 150 + index * 120;
             const button = this.add.container(this.cameras.main.centerX, y);
 
-            const bg = this.add.rectangle(0, 0, 300, 100, 0x4CAF50, 0.3)
+            const isSelected = this.selectedHeroes.includes(hero.id);
+            const bgColor = isSelected ? 0x4CAF50 : 0x333333;
+            const bgAlpha = isSelected ? 0.8 : 0.3;
+
+            const bg = this.add.rectangle(0, 0, 300, 100, bgColor, bgAlpha)
                 .setInteractive()
+                .on('pointerover', () => {
+                    if (!isSelected) {
+                        bg.setFillStyle(0x4CAF50, 0.5);
+                    }
+                })
+                .on('pointerout', () => {
+                    if (!isSelected) {
+                        bg.setFillStyle(0x333333, 0.3);
+                    }
+                })
                 .on('pointerdown', () => this.toggleHero(hero.id));
             
-            const emoji = this.add.text(-120, 0, this.heroTypeEmojis[hero.type], { fontSize: '40px' })
+            const emoji = this.add.text(-120, 0, this.heroTypeEmojis[hero.type as HeroType], { fontSize: '40px' })
                 .setOrigin(0.5);
             
             const name = this.add.text(-50, -15, `${hero.name} (${hero.type})`, {
                 fontSize: '24px',
-                color: '#ffffff',
+                color: isSelected ? '#ffffff' : '#cccccc',
                 fontFamily: '"PingFang SC", "Microsoft YaHei", sans-serif'
             });
             
             const description = this.add.text(-50, 15, hero.specialty, {
                 fontSize: '16px',
-                color: '#aaaaaa',
+                color: isSelected ? '#ffffff' : '#aaaaaa',
                 fontFamily: '"PingFang SC", "Microsoft YaHei", sans-serif'
             });
 
             button.add([bg, emoji, name, description]);
 
             // 选中效果
-            if (this.selectedHeroes.includes(hero.id)) {
+            if (isSelected) {
                 bg.setStrokeStyle(2, 0x00ff00);
+                // 添加选中指示器
+                const indicator = this.add.text(120, 0, '✓', {
+                    fontSize: '32px',
+                    color: '#00ff00'
+                }).setOrigin(0.5);
+                button.add(indicator);
             }
         });
 
@@ -239,6 +298,10 @@ export class SelectScene extends Scene {
             this.time.delayedCall(2000, () => text.destroy());
             return;
         }
+
+        // 保存选择到本地存储
+        localStorage.setItem('lastSelectedLevel', this.selectedLevel.toString());
+        localStorage.setItem('lastSelectedHeroes', JSON.stringify(this.selectedHeroes));
 
         // 启动战斗场景，传递选择的关卡和英雄信息
         this.scene.start('BattleScene', {

@@ -23,8 +23,8 @@ export class MainMenuScene extends Scene {
         // 创建开始按钮
         const startButton = this.add.text(
             this.cameras.main.centerX,
-            this.cameras.main.height * 0.5, // 调整到屏幕中间
-            '开始游戏 ▶️',
+            this.cameras.main.height * 0.45,
+            '选择关卡 🎯',
             {
                 fontSize: '28px', // 减小字体大小
                 color: '#ffffff',
@@ -36,18 +36,33 @@ export class MainMenuScene extends Scene {
         .setOrigin(0.5)
         .setInteractive();
 
-        // 添加按钮悬停效果
-        startButton.on('pointerover', () => {
-            startButton.setStyle({ color: '#4CAF50', backgroundColor: '#ffffff' });
-        });
+        // 添加快速开始按钮
+        const quickStartButton = this.add.text(
+            this.cameras.main.centerX,
+            this.cameras.main.height * 0.6,
+            '快速开始 ⚡️',
+            {
+                fontSize: '28px',
+                color: '#ffffff',
+                backgroundColor: '#2196F3',
+                padding: { x: 30, y: 15 },
+                fontFamily: '"PingFang SC", "Microsoft YaHei", sans-serif'
+            }
+        )
+        .setOrigin(0.5)
+        .setInteractive();
 
-        startButton.on('pointerout', () => {
-            startButton.setStyle({ color: '#ffffff', backgroundColor: '#4CAF50' });
-        });
+        // 添加按钮悬停效果
+        this.addButtonHoverEffect(startButton, '#4CAF50');
+        this.addButtonHoverEffect(quickStartButton, '#2196F3');
 
         // 添加点击事件
         startButton.on('pointerdown', () => {
             this.scene.start('SelectScene');
+        });
+
+        quickStartButton.on('pointerdown', () => {
+            this.quickStart();
         });
 
         // 添加版本号
@@ -64,6 +79,48 @@ export class MainMenuScene extends Scene {
 
         // 添加装饰性 Emoji
         this.createEmojiDecorations();
+    }
+
+    private addButtonHoverEffect(button: Phaser.GameObjects.Text, bgColor: string): void {
+        button.on('pointerover', () => {
+            button.setStyle({ color: bgColor, backgroundColor: '#ffffff' });
+        });
+
+        button.on('pointerout', () => {
+            button.setStyle({ color: '#ffffff', backgroundColor: bgColor });
+        });
+    }
+
+    private quickStart(): void {
+        // 获取上次的选择
+        const lastLevel = localStorage.getItem('lastSelectedLevel');
+        const lastHeroes = localStorage.getItem('lastSelectedHeroes');
+
+        if (!lastLevel || !lastHeroes) {
+            // 如果没有上次的选择记录，显示提示并跳转到选择界面
+            const text = this.add.text(
+                this.cameras.main.centerX,
+                this.cameras.main.height * 0.7,
+                '⚠️ 请先完成一次游戏',
+                {
+                    fontSize: '20px',
+                    color: '#ff0000',
+                    fontFamily: '"PingFang SC", "Microsoft YaHei", sans-serif'
+                }
+            ).setOrigin(0.5);
+
+            this.time.delayedCall(2000, () => {
+                text.destroy();
+                this.scene.start('SelectScene');
+            });
+            return;
+        }
+
+        // 直接开始战斗
+        this.scene.start('BattleScene', {
+            level: parseInt(lastLevel),
+            heroes: JSON.parse(lastHeroes)
+        });
     }
 
     private createEmojiDecorations(): void {

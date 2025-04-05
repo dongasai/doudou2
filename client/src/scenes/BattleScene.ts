@@ -44,6 +44,19 @@ interface EventData {
  * 负责战斗的视觉展示、动画效果和用户输入处理
  */
 export class BattleScene extends Phaser.Scene {
+    private static readonly UI_EMOJIS = {
+        status: {
+            pause: '⏸️',
+            play: '▶️',
+            victory: '🏆',
+            defeat: '💔'
+        },
+        ui: {
+            coin: '🪙',
+            back: '🔙'
+        }
+    };
+
     /** 战斗管理器实例 */
     private battleManager: BattleManager;
     
@@ -269,7 +282,7 @@ export class BattleScene extends Phaser.Scene {
         const x = this.cameras.main.centerX + Math.cos(angle) * distance;
         const y = this.cameras.main.centerY + Math.sin(angle) * distance;
 
-        this.battleManager.createBean(
+        this.battleManager.spawnBean(
             `bean_${Date.now()}`,
             type,
             { x, y }
@@ -284,7 +297,7 @@ export class BattleScene extends Phaser.Scene {
         const pauseButton = this.add.text(
             this.cameras.main.width - 50,
             20,
-            GameEmojis.status.pause,
+            BattleScene.UI_EMOJIS.status.pause,
             { fontSize: '32px' }
         )
         .setInteractive()
@@ -296,7 +309,7 @@ export class BattleScene extends Phaser.Scene {
         this.add.text(
             20,
             20,
-            `${GameEmojis.ui.coin} 0`,
+            `${BattleScene.UI_EMOJIS.ui.coin} 0`,
             { 
                 fontSize: '24px',
                 color: '#ffffff'
@@ -308,7 +321,7 @@ export class BattleScene extends Phaser.Scene {
      * 显示游戏结束画面
      */
     private showGameOverScreen(victory: boolean): void {
-        const emoji = victory ? GameEmojis.status.victory : GameEmojis.status.defeat;
+        const emoji = victory ? BattleScene.UI_EMOJIS.status.victory : BattleScene.UI_EMOJIS.status.defeat;
         const text = victory ? '胜利！' : '失败！';
         const color = victory ? '#00ff00' : '#ff0000';
 
@@ -322,7 +335,7 @@ export class BattleScene extends Phaser.Scene {
         }).setOrigin(0.5));
 
         // 添加返回按钮
-        const backButton = this.add.text(0, 150, `${GameEmojis.ui.back} 返回主菜单`, {
+        const backButton = this.add.text(0, 150, `${BattleScene.UI_EMOJIS.ui.back} 返回主菜单`, {
             fontSize: '24px',
             backgroundColor: '#4CAF50',
             padding: { x: 20, y: 10 },

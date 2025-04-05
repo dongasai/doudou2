@@ -23,6 +23,19 @@ export interface HeroConfig {
     };
 }
 
+export interface BeanConfig {
+    id: number;
+    type: string;
+    name: string;
+    description: string;
+    stats: {
+        hp: number;
+        attack: number;
+        defense: number;
+        speed: number;
+    };
+}
+
 export interface LevelConfig {
     name: string;
     description: string;
@@ -56,6 +69,7 @@ export class ConfigLoader {
     private static instance: ConfigLoader;
     private heroes: Map<number, HeroConfig> = new Map();
     private levels: Map<number, LevelConfig> = new Map();
+    private beans: Map<number, BeanConfig> = new Map();
 
     private constructor() {}
 
@@ -75,7 +89,8 @@ export class ConfigLoader {
     public async loadAllConfigs(): Promise<void> {
         await Promise.all([
             this.loadHeroes(),
-            this.loadLevels()
+            this.loadLevels(),
+            this.loadBeans()
         ]);
     }
 
@@ -107,6 +122,20 @@ export class ConfigLoader {
         }
     }
 
+    private async loadBeans(): Promise<void> {
+        try {
+            const response = await fetch('/src/data/beans.json');
+            if (response.ok) {
+                const beans = await response.json();
+                beans.forEach((bean: BeanConfig) => {
+                    this.beans.set(bean.id, bean);
+                });
+            }
+        } catch (error) {
+            console.error('加载豆豆配置失败:', error);
+        }
+    }
+
     public getHero(id: number): HeroConfig | undefined {
         return this.heroes.get(id);
     }
@@ -121,5 +150,13 @@ export class ConfigLoader {
 
     public getAllLevels(): LevelConfig[] {
         return Array.from(this.levels.values());
+    }
+
+    public getBean(id: number): BeanConfig | undefined {
+        return this.beans.get(id);
+    }
+
+    public getAllBeanConfigs(): BeanConfig[] {
+        return Array.from(this.beans.values());
     }
 } 
