@@ -6,11 +6,11 @@
   "specialty": "敏捷作战",
   "skills": [
     {
-      "name": "飞扑",
-      "type": "位移",
-      "description": "快速突进",
+      "name": "猛击",
+      "type": "伤害",
+      "description": "强力近战攻击",
       "cooldown": 8,
-      "cost": 50
+      "cost": 60
     },
     {
       "name": "利爪",

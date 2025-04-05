@@ -3,7 +3,7 @@
     "phaser": "^3.60.0"
   },
   "scripts": {
-    "sync-configs": "node scripts/sync-configs.js",
+    "sync-configs-toclient": "node scripts/sync-configs.js",
     "presync-configs": "mkdir -p src/data client/src/data",
     "sync-client": "node scripts/sync-client-configs.js",
     "presync-client": "mkdir -p client/src/data src/data"

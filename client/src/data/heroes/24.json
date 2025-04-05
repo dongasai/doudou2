@@ -13,9 +13,9 @@
       "cost": 45
     },
     {
-      "name": "疾风",
-      "type": "位移",
-      "description": "快速移动",
+      "name": "风刃",
+      "type": "伤害",
+      "description": "发射锋利的风刃",
       "cooldown": 10,
       "cost": 60
     },

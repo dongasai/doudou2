@@ -3,12 +3,12 @@
   "name": "风行",
   "type": "射手",
   "style": "均衡型",
-  "specialty": "移动攻击",
+  "specialty": "快速射击",
   "skills": [
     {
-      "name": "疾跑",
-      "type": "位移",
-      "description": "快速移动",
+      "name": "风之专注",
+      "type": "增益",
+      "description": "提升攻击速度",
       "cooldown": 6,
       "cost": 45
     },

@@ -22,7 +22,7 @@
     {
       "name": "加速",
       "type": "增益",
-      "description": "提升队友移动速度",
+      "description": "提升队友攻击速度",
       "cooldown": 8,
       "cost": 50
     },
