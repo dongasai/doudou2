@@ -126,7 +126,7 @@ export class ConfigLoader {
         try {
             const response = await fetch('/src/data/beans.json');
             if (response.ok) {
-                const beans = await response.json();
+                const { beans } = await response.json();
                 beans.forEach((bean: BeanConfig) => {
                     this.beans.set(bean.id, bean);
                 });

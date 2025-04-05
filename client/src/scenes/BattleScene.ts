@@ -44,6 +44,12 @@ interface EventData {
  * 负责战斗的视觉展示、动画效果和用户输入处理
  */
 export class BattleScene extends Phaser.Scene {
+    // 层级常量
+    public static readonly LAYER_BACKGROUND = 0;
+    public static readonly LAYER_ENEMY = 1;
+    public static readonly LAYER_HERO = 3;
+    public static readonly LAYER_CRYSTAL = 4;
+    public static readonly LAYER_UI = 5;
     private static readonly UI_EMOJIS = {
         status: {
             pause: '⏸️',
@@ -79,18 +85,21 @@ export class BattleScene extends Phaser.Scene {
     private setupEventListeners(): void {
         // 监听英雄创建事件
         this.battleManager.on('heroCreated', (data: EventData['heroCreated']) => {
-            const hero = new Hero(this, data.position.x, data.position.y, data.type);
+            const hero = new Hero(this, data.position.x, data.position.y, data.type)
+                .setDepth(BattleScene.LAYER_HERO); // 英雄层
             this.gameObjects.heroes.set(data.id, hero);
         });
 
         // 监听水晶创建事件
         this.battleManager.on('crystalCreated', (data: EventData['crystalCreated']) => {
-            this.gameObjects.crystal = new Crystal(this, data.position.x, data.position.y);
+            this.gameObjects.crystal = new Crystal(this, this.cameras.main.centerX, this.cameras.main.centerY)
+                .setDepth(BattleScene.LAYER_CRYSTAL); // 水晶层
         });
 
         // 监听豆豆生成事件
         this.battleManager.on('beanSpawned', (data: EventData['beanSpawned']) => {
-            const bean = new Bean(this, data.position.x, data.position.y);
+            const bean = new Bean(this, data.position.x, data.position.y)
+                .setDepth(BattleScene.LAYER_ENEMY); // 怪物层
             this.gameObjects.beans.set(data.id, bean);
         });
 
@@ -299,22 +308,24 @@ export class BattleScene extends Phaser.Scene {
             20,
             BattleScene.UI_EMOJIS.status.pause,
             { fontSize: '32px' }
-        )
-        .setInteractive()
-        .on('pointerdown', () => {
+        );
+        pauseButton.setDepth(BattleScene.LAYER_UI);
+        pauseButton.setInteractive();
+        pauseButton.on('pointerdown', () => {
             // TODO: 实现暂停功能
         });
 
         // 添加得分显示
-        this.add.text(
+        const scoreText = this.add.text(
             20,
             20,
             `${BattleScene.UI_EMOJIS.ui.coin} 0`,
-            { 
+            {
                 fontSize: '24px',
                 color: '#ffffff'
             }
         );
+        scoreText.setDepth(BattleScene.LAYER_UI);
     }
 
     /**
@@ -365,4 +376,4 @@ export class BattleScene extends Phaser.Scene {
             this.gameObjects.crystal.update();
         }
     }
-} 
+}

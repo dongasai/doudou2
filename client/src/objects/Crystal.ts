@@ -1,3 +1,4 @@
+import { BattleScene } from '../scenes/BattleScene';
 /**
  * 水晶类
  * 作为游戏中的核心防守目标
@@ -17,10 +18,8 @@ export class Crystal extends Phaser.GameObjects.Text {
     private maxHealth: number = 1000;
     /** 水晶的当前生命值 */
     private health: number = 1000;
-    /** 水晶的血条显示对象 */
-    private healthBar!: Phaser.GameObjects.Rectangle;
-    /** 水晶血条的背景显示对象 */
-    private healthBarBg!: Phaser.GameObjects.Rectangle;
+    /** 水晶的血量文本显示 */
+    private healthText!: Phaser.GameObjects.Text;
     private shieldActive: boolean = false;
 
     /**
@@ -33,14 +32,13 @@ export class Crystal extends Phaser.GameObjects.Text {
         super(scene, x, y, Crystal.EMOJIS.crystal, { fontSize: '48px' });
         scene.add.existing(this);
         
-        // 设置物理属性
-        this.setScale(2);              // 设置水晶大小
+        // 设置层级和物理属性
+        this.setDepth(BattleScene.LAYER_CRYSTAL)
+            .setScale(0.8);            // 设置水晶大小
 
         // 创建血条
         this.createHealthBar();
         
-        // 添加发光效果
-        this.createGlowEffect();
     }
 
     /**
@@ -48,49 +46,18 @@ export class Crystal extends Phaser.GameObjects.Text {
      * 包括血条背景和血条前景
      */
     private createHealthBar(): void {
-        const width = 100;
-        const height = 8;
-        const padding = 2;
-        
-        // 创建血条背景
-        this.healthBarBg = this.scene.add.rectangle(
-            this.x,
-            this.y - 40,
-            width,
-            height,
-            0x000000,
-            0.8
-        );
-        
-        // 创建血条
-        this.healthBar = this.scene.add.rectangle(
-            this.x - width/2 + padding,
-            this.y - 40,
-            width - padding * 2,
-            height - padding * 2,
-            0x00ffff
-        );
-        this.healthBar.setOrigin(0, 0.5);
-    }
-
-    private createGlowEffect(): void {
-        // 添加发光效果
-        const glow = this.scene.add.text(
-            this.x,
-            this.y,
-            '✨',
-            { fontSize: '32px' }
+        // 创建血量文本显示 (100/100 格式)
+        this.healthText = this.scene.add.text(
+            -100, // 临时位置，将在update中调整
+            -40,  // 临时位置，将在update中调整
+            `${this.health}/${this.maxHealth}`,
+            {
+                fontSize: '24px',
+                color: '#ffffff',
+                stroke: '#000000',
+                strokeThickness: 2
+            }
         ).setOrigin(0.5);
-        
-        // 发光动画
-        this.scene.tweens.add({
-            targets: glow,
-            alpha: 0.5,
-            scale: 1.2,
-            duration: 1000,
-            yoyo: true,
-            repeat: -1
-        });
     }
 
     /**
@@ -129,9 +96,8 @@ export class Crystal extends Phaser.GameObjects.Text {
      * 根据当前生命值比例调整血条长度
      */
     private updateHealthBar(): void {
-        const healthPercentage = this.health / this.maxHealth;
-        const width = this.healthBarBg.width - 4;
-        this.healthBar.width = width * healthPercentage;
+        // 更新血量文本
+        this.healthText.setText(`${this.health}/${this.maxHealth}`);
     }
 
     private showDamageNumber(damage: number): void {
@@ -207,12 +173,11 @@ export class Crystal extends Phaser.GameObjects.Text {
      * 主要用于更新血条位置
      */
     update() {
-        // 更新血条位置，使其跟随水晶
-        const barX = this.x - this.healthBar.width / 2;
-        const barY = this.y - this.height - 30;
-        
-        this.healthBar.setPosition(barX, barY);
-        this.healthBarBg.setPosition(barX, barY);
+        // 更新血量文本位置 (暂停按钮左侧)
+        this.healthText.setPosition(
+            this.scene.cameras.main.width - 150, // 屏幕右侧偏移
+            30 // 顶部偏移
+        );
     }
 
     /**
@@ -220,12 +185,9 @@ export class Crystal extends Phaser.GameObjects.Text {
      * 包括血条和血条背景
      */
     public destroy(): void {
-        // 清理血条
-        if (this.healthBar) {
-            this.healthBar.destroy();
-        }
-        if (this.healthBarBg) {
-            this.healthBarBg.destroy();
+        // 清理血量文本
+        if (this.healthText) {
+            this.healthText.destroy();
         }
         
         super.destroy();
@@ -241,13 +203,6 @@ export class Crystal extends Phaser.GameObjects.Text {
 
     public setPosition(x: number, y: number): this {
         super.setPosition(x, y);
-        
-        // 更新血条位置
-        if (this.healthBar && this.healthBarBg) {
-            this.healthBarBg.setPosition(x, y - 40);
-            this.healthBar.setPosition(x - this.healthBarBg.width/2 + 2, y - 40);
-        }
-        
         return this;
     }
 } 
