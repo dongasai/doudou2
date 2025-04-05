@@ -1,6 +1,7 @@
 {
   "id": 9,
   "name": "狂刀",
+  "emoji": "⚔️",
   "type": "战士",
   "style": "均衡型",
   "specialty": "近战输出",
