@@ -6,11 +6,11 @@
   "specialty": "隐身突袭",
   "skills": [
     {
-      "name": "隐匿",
-      "type": "位移",
-      "description": "进入隐身",
+      "name": "伪装",
+      "type": "隐身",
+      "description": "原地隐身",
       "cooldown": 12,
-      "cost": 65
+      "cost": 55
     },
     {
       "name": "暗袭",

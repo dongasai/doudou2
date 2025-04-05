@@ -54,7 +54,13 @@ export class BattleManager {
      */
     public createHero(id: string, type: string, position: Position): void {
         // 从配置中获取英雄数据
-        const heroConfig = ConfigLoader.getInstance().getHeroConfig(parseInt(type));
+        const heroId = parseInt(type);
+        if (isNaN(heroId)) {
+            console.error(`无效的英雄类型: ${type}`);
+            return;
+        }
+        
+        const heroConfig = ConfigLoader.getInstance().getHeroConfig(heroId);
         
         if (!heroConfig) {
             console.error(`找不到英雄配置: ${type}`);
@@ -65,8 +71,8 @@ export class BattleManager {
             id,
             type: type,
             position,
-            health: heroConfig.baseStats.maxHp,
-            maxHealth: heroConfig.baseStats.maxHp,
+            health: heroConfig.stats.hp,
+            maxHealth: heroConfig.stats.hp,
             level: 1,
             skills: heroConfig.skills.map((skill: any) => skill.id)
         };
