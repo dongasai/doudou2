@@ -1,3 +1,4 @@
+import { GameEmojis } from '@/config/emojis';
 import { GameObject } from './GameObject';
 import { Skill } from '@/types/hero';
 
@@ -13,59 +14,127 @@ export class Hero extends GameObject {
         defense: 5,
         speed: 5
     };
+    private healthBar!: Phaser.GameObjects.Rectangle;
+    private healthBarBg!: Phaser.GameObjects.Rectangle;
+    private type: string;
 
-    constructor(scene: Phaser.Scene, x: number, y: number, name: string) {
-        super(scene, x, y, '🦸');  // 使用英雄emoji作为贴图
-        this.name = name;
+    constructor(scene: Phaser.Scene, x: number, y: number, type: string) {
+        // 根据英雄类型选择对应的 Emoji
+        const emoji = GameEmojis.heroes[type as keyof typeof GameEmojis.heroes] || '👤';
+        super(scene, x, y, emoji);
+        
+        this.type = type;
         
         // 设置物理属性
-        this.body.setImmovable(true);
-        this.setScale(2);
-
+        this.setScale(1.5);
+        if (this.body) {
+            this.body.setCollideWorldBounds(true);
+        }
+        
         // 创建血条
         this.createHealthBar();
     }
 
-    private createHealthBar() {
-        const barWidth = 100;
-        const barHeight = 8;
-        const barX = -barWidth / 2;
-        const barY = -this.height;
-
-        // 血条背景
-        const healthBarBg = this.scene.add.rectangle(
-            this.x + barX,
-            this.y + barY,
-            barWidth,
-            barHeight,
-            0x000000
+    private createHealthBar(): void {
+        const width = 50;
+        const height = 6;
+        const padding = 2;
+        
+        // 创建血条背景
+        this.healthBarBg = this.scene.add.rectangle(
+            0,
+            -30,
+            width,
+            height,
+            0x000000,
+            0.8
         );
-        healthBarBg.setOrigin(0, 0);
-
-        // 血条
-        const healthBar = this.scene.add.rectangle(
-            this.x + barX,
-            this.y + barY,
-            barWidth,
-            barHeight,
-            0xff0000
+        
+        // 创建血条
+        this.healthBar = this.scene.add.rectangle(
+            -width/2 + padding,
+            -30,
+            width - padding * 2,
+            height - padding * 2,
+            0x00ff00
         );
-        healthBar.setOrigin(0, 0);
+        this.healthBar.setOrigin(0, 0.5);
+        
+        // 将血条添加为子对象
+        this.add(this.healthBarBg);
+        this.add(this.healthBar);
     }
 
-    public takeDamage(amount: number) {
-        this.stats.hp = Math.max(0, this.stats.hp - Math.max(0, amount - this.stats.defense));
-        // 更新血条显示
-        this.updateHealthBar();
-
-        if (this.stats.hp <= 0) {
-            this.die();
-        }
+    public takeDamage(damage: number): void {
+        // 显示伤害数字
+        this.showDamageNumber(damage);
+        
+        // 显示受击效果
+        this.showHitEffect();
     }
 
-    private updateHealthBar() {
-        const healthPercentage = this.stats.hp / this.stats.maxHp;
-        // TODO: 更新血条宽度
+    private showDamageNumber(damage: number): void {
+        const text = this.scene.add.text(
+            this.x,
+            this.y - 40,
+            `-${damage}`,
+            {
+                fontSize: '20px',
+                color: '#ff0000'
+            }
+        ).setOrigin(0.5);
+
+        this.scene.tweens.add({
+            targets: text,
+            y: text.y - 50,
+            alpha: 0,
+            duration: 1000,
+            onComplete: () => text.destroy()
+        });
+    }
+
+    private showHitEffect(): void {
+        // 闪烁效果
+        this.scene.tweens.add({
+            targets: this,
+            alpha: 0.5,
+            duration: 100,
+            yoyo: true
+        });
+
+        // 显示受击特效
+        const hitEmoji = this.scene.add.text(
+            this.x,
+            this.y,
+            GameEmojis.effects.explosion,
+            { fontSize: '32px' }
+        ).setOrigin(0.5);
+
+        this.scene.tweens.add({
+            targets: hitEmoji,
+            scale: 1.5,
+            alpha: 0,
+            duration: 300,
+            onComplete: () => hitEmoji.destroy()
+        });
+    }
+
+    public castSkill(skillType: string): void {
+        const skillEmoji = GameEmojis.skills[skillType as keyof typeof GameEmojis.skills] || '✨';
+        const skillEffect = this.scene.add.text(
+            this.x,
+            this.y,
+            skillEmoji,
+            { fontSize: '32px' }
+        ).setOrigin(0.5);
+
+        this.scene.tweens.add({
+            targets: skillEffect,
+            scale: 2,
+            alpha: 0,
+            duration: 500,
+            onComplete: () => skillEffect.destroy()
+        });
     }
 
     public heal(amount: number) {
@@ -145,5 +214,10 @@ export class Hero extends GameObject {
             // TODO: 实现技能效果
             console.log(`${this.name} 使用技能: ${skill.name}`);
         }
+    }
+
+    private updateHealthBar() {
+        const healthPercentage = this.stats.hp / this.stats.maxHp;
+        // TODO: 更新血条宽度
     }
 } 

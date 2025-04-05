@@ -1,19 +1,5 @@
 import type { Skill } from './Skill';
-
-/**
- * 基础属性类型
- * 描述豆豆的战斗属性
- */
-interface Stats {
-  /** 生命值 */
-  hp: number;
-  /** 攻击力 */
-  attack: number;
-  /** 防御力 */
-  defense: number;
-  /** 速度 */
-  speed: number;
-}
+import type { Stats } from './Stats';
 
 /**
  * 豆豆类型定义
@@ -32,5 +18,4 @@ interface Bean {
   stats: Stats;
 }
 
-// 导出类型
-export type { Bean, Stats };
+export type { Bean };

@@ -2,6 +2,7 @@ import { BattleManager } from '@/core/BattleManager';
 import { Hero } from '@/objects/Hero';
 import { Crystal } from '@/objects/Crystal';
 import { Bean } from '@/objects/Bean';
+import { GameEmojis } from '@/config/emojis';
 
 /** 事件数据类型 */
 interface EventData {
@@ -15,6 +16,7 @@ interface EventData {
     };
     beanSpawned: {
         id: string;
+        type: string;
         position: { x: number; y: number };
     };
     damageDealt: {
@@ -54,7 +56,7 @@ export class BattleScene extends Phaser.Scene {
     };
 
     constructor() {
-        super({ key: 'Battle' });
+        super({ key: 'BattleScene' });
         this.battleManager = new BattleManager();
         this.setupEventListeners();
     }
@@ -132,6 +134,11 @@ export class BattleScene extends Phaser.Scene {
     }
 
     create() {
+        // 设置背景
+        this.add.rectangle(0, 0, this.cameras.main.width, this.cameras.main.height, 0x000000)
+            .setOrigin(0, 0)
+            .setAlpha(0.3);
+
         // 创建水晶
         this.battleManager.createCrystal({
             x: this.cameras.main.centerX,
@@ -147,18 +154,19 @@ export class BattleScene extends Phaser.Scene {
             { x: this.cameras.main.centerX, y: this.cameras.main.centerY }        // 中
         ];
 
-        // 创建英雄
+        // 创建英雄（使用英雄ID而不是类型字符串）
+        const heroIds = [1, 2, 3, 4, 5]; // 对应配置文件中的英雄ID
         positions.forEach((pos, index) => {
             this.battleManager.createHero(
                 `hero_${index}`,
-                `${index + 1}`,
+                heroIds[index].toString(),
                 pos
             );
         });
 
         // 设置定时生成豆豆
         this.time.addEvent({
-            delay: 1000,
+            delay: 2000,
             callback: this.spawnBean,
             callbackScope: this,
             loop: true
@@ -166,6 +174,9 @@ export class BattleScene extends Phaser.Scene {
 
         // 设置碰撞检测
         this.setupCollisions();
+
+        // 添加UI
+        this.createUI();
     }
 
     /**
@@ -188,13 +199,23 @@ export class BattleScene extends Phaser.Scene {
 
         // 设置水晶和豆豆的碰撞
         if (this.gameObjects.crystal) {
+            // 创建一个不可见的物理区域来处理水晶的碰撞
+            const crystalHitArea = this.add.rectangle(
+                this.gameObjects.crystal.x,
+                this.gameObjects.crystal.y,
+                50,
+                50,
+                0x000000,
+                0
+            );
+            this.physics.add.existing(crystalHitArea, true);
+
             this.physics.add.collider(
-                this.gameObjects.crystal as unknown as Phaser.GameObjects.GameObject,
+                crystalHitArea,
                 beanSprites as unknown as Phaser.GameObjects.GameObject[],
                 (obj1, obj2) => {
-                    const crystal = obj1 as unknown as Crystal;
                     const bean = obj2 as unknown as Bean;
-                    this.handleCrystalBeanCollision(crystal, bean);
+                    this.handleCrystalBeanCollision(this.gameObjects.crystal!, bean);
                 }
             );
         }
@@ -245,21 +266,64 @@ export class BattleScene extends Phaser.Scene {
     }
 
     /**
+     * 创建UI界面
+     */
+    private createUI(): void {
+        // 添加暂停按钮
+        const pauseButton = this.add.text(
+            this.cameras.main.width - 50,
+            20,
+            GameEmojis.status.pause,
+            { fontSize: '32px' }
+        )
+        .setInteractive()
+        .on('pointerdown', () => {
+            // TODO: 实现暂停功能
+        });
+
+        // 添加得分显示
+        this.add.text(
+            20,
+            20,
+            `${GameEmojis.ui.coin} 0`,
+            { 
+                fontSize: '24px',
+                color: '#ffffff'
+            }
+        );
+    }
+
+    /**
      * 显示游戏结束画面
      */
     private showGameOverScreen(victory: boolean): void {
+        const emoji = victory ? GameEmojis.status.victory : GameEmojis.status.defeat;
         const text = victory ? '胜利！' : '失败！';
         const color = victory ? '#00ff00' : '#ff0000';
 
-        this.add.text(
-            this.cameras.main.centerX,
-            this.cameras.main.centerY,
-            text,
-            {
-                fontSize: '64px',
-                color: color
-            }
-        ).setOrigin(0.5);
+        const container = this.add.container(this.cameras.main.centerX, this.cameras.main.centerY);
+
+        container.add(this.add.text(0, -50, emoji, { fontSize: '64px' }).setOrigin(0.5));
+        container.add(this.add.text(0, 50, text, {
+            fontSize: '48px',
+            color: color,
+            fontFamily: '"PingFang SC", "Microsoft YaHei", sans-serif'
+        }).setOrigin(0.5));
+
+        // 添加返回按钮
+        const backButton = this.add.text(0, 150, `${GameEmojis.ui.back} 返回主菜单`, {
+            fontSize: '24px',
+            backgroundColor: '#4CAF50',
+            padding: { x: 20, y: 10 },
+            fontFamily: '"PingFang SC", "Microsoft YaHei", sans-serif'
+        })
+        .setOrigin(0.5)
+        .setInteractive()
+        .on('pointerdown', () => {
+            this.scene.start('MainMenuScene');
+        });
+
+        container.add(backButton);
     }
 
     update(time: number, delta: number): void {
