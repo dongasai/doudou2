@@ -1,4 +1,4 @@
-import { Stats } from './hero';
+import { BaseStats } from './BaseStats';
 
 export interface ItemsList {
   items: ShopItem[];
@@ -17,7 +17,7 @@ export interface ShopItem {
   /** 物品效果 */
   effect: {
     /** 影响的属性 */
-    stat: keyof Stats;
+    stat: keyof BaseStats;
     /** 增加值 */
     value: number;
   };
@@ -33,7 +33,7 @@ export interface LevelUpOption {
   /** 选项效果 */
   effect: {
     /** 影响的属性 */
-    stat: keyof Stats;
+    stat: keyof BaseStats;
     /** 增加值 */
     value: number;
   };
