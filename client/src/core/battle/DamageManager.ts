@@ -10,6 +10,7 @@ export class DamageManager {
 
     private constructor() {
         this.eventManager = EventManager.getInstance();
+        this.setupEventListeners();
     }
 
     public static getInstance(): DamageManager {
@@ -17,6 +18,55 @@ export class DamageManager {
             DamageManager.instance = new DamageManager();
         }
         return DamageManager.instance;
+    }
+
+    private setupEventListeners() {
+        this.eventManager.on('damageRequest', this.handleDamageRequest.bind(this));
+    }
+
+    /**
+     * 处理伤害请求
+     */
+    private handleDamageRequest(data: {
+        target: any;
+        amount: number;
+        source: string;
+        skillId?: number;
+    }) {
+        const { target, amount, source, skillId } = data;
+        
+        // 计算最终伤害
+        const finalDamage = this.calculateDamage(amount, target);
+        
+        // 发出伤害事件
+        this.eventManager.emit('damageDealt', {
+            target,
+            amount: finalDamage,
+            source,
+            skillId
+        });
+    }
+
+    /**
+     * 计算伤害值
+     * 考虑目标防御力和其他减伤效果
+     */
+    private calculateDamage(baseDamage: number, target: any): number {
+        let finalDamage = baseDamage;
+
+        // 如果目标有防御属性
+        if (target.defense) {
+            // 防御减伤公式：实际伤害 = 基础伤害 * (100 / (100 + 防御))
+            finalDamage = baseDamage * (100 / (100 + target.defense));
+        }
+
+        // 如果目标有减伤效果
+        if (target.damageReduction) {
+            finalDamage *= (1 - target.damageReduction);
+        }
+
+        // 确保伤害不小于1
+        return Math.max(1, Math.round(finalDamage));
     }
 
     /**
