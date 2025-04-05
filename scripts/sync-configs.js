@@ -23,9 +23,9 @@ const CONFIG = {
     },
     // 目标目录配置
     dest: {
-        data: path.resolve(__dirname, '../client/src/data'),
-        types: path.resolve(__dirname, '../client/src/types'),
-        docs: path.resolve(__dirname, '../client')
+        data: path.resolve(__dirname, '../../client/src/data'),
+        types: path.resolve(__dirname, '../../client/src/types'),
+        docs: path.resolve(__dirname, '../../client')
     },
     // 特定文件映射
     fileMappings: [

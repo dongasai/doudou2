@@ -6,6 +6,14 @@
     "sync-configs-toclient": "node scripts/sync-configs.js",
     "presync-configs": "mkdir -p src/data client/src/data",
     "sync-client": "node scripts/sync-client-configs.js",
-    "presync-client": "mkdir -p client/src/data src/data"
+    "presync-client": "mkdir -p client/src/data src/data",
+    "generate-hero-index": "ts-node scripts/generate-hero-index.ts",
+    "pregenerate-hero-index": "npm install @types/node --save-dev",
+    "generate-level-index": "ts-node scripts/generate-level-index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
   }
 }
