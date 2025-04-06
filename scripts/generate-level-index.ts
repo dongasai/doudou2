@@ -15,7 +15,7 @@ async function generateLevelIndex() {
     const filePath = path.join(LEVELS_DIR, file);
     const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
     
-    const id = file.replace('.json', '');
+    const id = data.id;
     levels.push({
       id,
       name: data.name,
