@@ -1,44 +1,49 @@
 {
   "id": 5,
-  "name": "影刃",
-  "emoji": "🗡️",
-  "type": "刺客",
-  "style": "特长型",
-  "specialty": "突进与暴击",
+  "name": "寒冰巫师",
+  "emoji": "❄️",
+  "type": "mage",
   "skills": [
     {
-      "name": "暗影打击",
-      "type": "伤害",
-      "description": "从暗处发动强力攻击",
-      "cooldown": 10,
-      "cost": 60
+      "id": "frost_nova",
+      "cooldown": 8000,
+      "cost": 60,
+      "range": 350,
+      "slowValue": 50,
+      "duration": 5000
     },
     {
-      "name": "致命一击",
-      "type": "伤害",
-      "description": "造成致命伤害",
-      "cooldown": 6,
-      "cost": 50
+      "id": "stun_shot",
+      "cooldown": 6000,
+      "cost": 40,
+      "range": 400,
+      "baseDamage": 70,
+      "stunDuration": 2000
+    }
+  ],
+  "skills_desc": [
+    {
+      "id": "frost_nova",
+      "name": "冰霜新星",
+      "type": "范围控制",
+      "range": "350像素",
+      "description": "释放冰霜新星，范围内敌人减速50%，持续5秒"
     },
     {
-      "name": "影分",
-      "type": "召唤",
-      "description": "创造分身混淆敌人",
-      "cooldown": 12,
-      "cost": 70
-    },
-    {
-      "name": "暗杀",
-      "type": "伤害",
-      "description": "对低血量目标造成致命一击",
-      "cooldown": 15,
-      "cost": 90
+      "id": "stun_shot",
+      "name": "眩晕射击",
+      "type": "单体控制",
+      "range": "400像素",
+      "description": "发射冰箭造成70点伤害并眩晕目标2秒"
     }
   ],
   "stats": {
-    "hp": 750,
-    "attack": 110,
-    "defense": 35,
-    "speed": 90
+    "hp": 850,
+    "mp": 220,
+    "attack": 60,
+    "defense": 55,
+    "magicAttack": 110,
+    "magicDefense": 90,
+    "speed": 55
   }
 }

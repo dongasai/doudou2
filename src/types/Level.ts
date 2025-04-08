@@ -1,43 +1,6 @@
 import { BaseStats } from './BaseStats';
 
-export interface ItemsList {
-  items: ShopItem[];
-}
 
-/**
- * 关卡配置类型定义
- */
-export interface ShopItem {
-  /** 物品ID */
-  id: string;
-  /** 物品名称 */
-  name: string;
-  /** 物品类型 */
-  type: 'weapon' | 'armor' | 'accessory' | 'consumable';
-  /** 物品效果 */
-  effect: {
-    /** 影响的属性 */
-    stat: keyof BaseStats;
-    /** 增加值 */
-    value: number;
-  };
-  /** 价格 */
-  price: number;
-}
-
-export interface LevelUpOption {
-  /** 选项ID */
-  id: string;
-  /** 选项名称 */
-  name: string;
-  /** 选项效果 */
-  effect: {
-    /** 影响的属性 */
-    stat: keyof BaseStats;
-    /** 增加值 */
-    value: number;
-  };
-}
 
 /**
  * 关卡配置类型定义
