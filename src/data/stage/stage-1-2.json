@@ -1,7 +1,7 @@
 {
-  "id": "level-1-2",
+  "id": "stage-1-2",
   "name": "第一章-第二关",
-  "description": "初级难度关卡",
+  "description": "初级难度关卡，主要敌人：暴躁豆(60%)、毒豆(30%)和精英豆(10%)。精英豆拥有更高的血量和攻击力。",
   "difficulty": 1.2,
   "crystal": {
     "maxHp": 950

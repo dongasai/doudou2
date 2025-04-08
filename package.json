@@ -9,7 +9,7 @@
     "presync-client": "mkdir -p client/src/data src/data",
     "generate-hero-index": "ts-node scripts/generate-hero-index.ts",
     "pregenerate-hero-index": "npm install @types/node --save-dev",
-    "generate-level-index": "ts-node scripts/generate-level-index.ts"
+    "generate-stage-index": "ts-node scripts/generate-stage-index.ts"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",

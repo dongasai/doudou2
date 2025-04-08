@@ -1,7 +1,7 @@
 {
-  "id": "level-1-1",
+  "id": "stage-1-1",
   "name": "第一章-第一关",
-  "description": "基础难度关卡",
+  "description": "基础难度关卡，主要敌人：暴躁豆(75%)和毒豆(25%)。暴躁豆攻击较高但防御低，毒豆会附加中毒效果。",
   "difficulty": 1.0,
   "crystal": {
     "maxHp": 1000
