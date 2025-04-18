@@ -1,0 +1,49 @@
+{
+  "id": 2,
+  "name": "钢铁卫士",
+  "emoji": "🛡️",
+  "type": "warrior",
+  "skills": [
+    {
+      "id": "battle_cry",
+      "cooldown": 10000,
+      "cost": 60,
+      "range": 300,
+      "attackBoost": 30,
+      "defenseBoost": 40,
+      "duration": 8000
+    },
+    {
+      "id": "shield_bash",
+      "cooldown": 3000,
+      "cost": 40,
+      "duration": 1000,
+      "value": -20
+    }
+  ],
+  "skills_desc": [
+    {
+      "id": "battle_cry",
+      "name": "战吼",
+      "type": "增益",
+      "range": "300像素",
+      "description": "提升自身30点攻击力和40点防御力，持续8秒"
+    },
+    {
+      "id": "shield_bash",
+      "name": "盾击",
+      "type": "控制",
+      "range": "近战",
+      "description": "击打目标造成伤害，并有几率眩晕1秒，降低目标20点防御"
+    }
+  ],
+  "stats": {
+    "hp": 1200,
+    "mp": 150,
+    "attack": 80,
+    "defense": 120,
+    "magicAttack": 30,
+    "magicDefense": 80,
+    "speed": 40
+  }
+}

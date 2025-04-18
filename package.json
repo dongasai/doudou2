@@ -4,6 +4,7 @@
   },
   "scripts": {
     "sync-configs-toclient": "node scripts/sync-configs.js",
+    "sync-configs-tovue": "node scripts/sync-config-tovue.js",
     "presync-configs": "mkdir -p src/data client/src/data",
     "sync-client": "node scripts/sync-client-configs.js",
     "presync-client": "mkdir -p client/src/data src/data",

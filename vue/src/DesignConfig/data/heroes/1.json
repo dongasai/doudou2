@@ -1,0 +1,50 @@
+{
+  "id": 1,
+  "name": "烈焰法师",
+  "emoji": "🔥",
+  "type": "mage",
+  "skills": [
+    {
+      "id": "fireball",
+      "cooldown": 3000,
+      "cost": 40,
+      "range": 400,
+      "baseDamage": 100,
+      "burnDamage": 20,
+      "burnDuration": 3000
+    },
+    {
+      "id": "flame_storm", 
+      "cooldown": 8000,
+      "cost": 80,
+      "range": 350,
+      "baseDamage": 80,
+      "duration": 5000
+    }
+  ],
+  "skills_desc": [
+    {
+      "id": "fireball",
+      "name": "火球术",
+      "type": "伤害",
+      "range": "400像素",
+      "description": "发射火球造成100点基础伤害，并有20%暴击率"
+    },
+    {
+      "id": "flame_storm",
+      "name": "烈焰风暴",
+      "type": "范围伤害", 
+      "range": "350像素",
+      "description": "召唤持续5秒的火焰风暴，每秒造成80点伤害"
+    }
+  ],
+  "stats": {
+    "hp": 800,
+    "mp": 200,
+    "attack": 50,
+    "defense": 40,
+    "magicAttack": 120,
+    "magicDefense": 60,
+    "speed": 50
+  }
+}

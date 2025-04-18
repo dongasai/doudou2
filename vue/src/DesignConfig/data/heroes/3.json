@@ -1,0 +1,50 @@
+{
+  "id": 3,
+  "name": "神圣牧师",
+  "emoji": "✨",
+  "type": "healer",
+  "skills": [
+    {
+      "id": "heal",
+      "cooldown": 5000,
+      "cost": 50,
+      "range": 300,
+      "baseHeal": 150,
+      "criticalRate": 0.25,
+      "criticalMultiplier": 1.5
+    },
+    {
+      "id": "speed_boost",
+      "cooldown": 10000,
+      "cost": 40,
+      "range": 300,
+      "effectValue": 50,
+      "duration": 5000
+    }
+  ],
+  "skills_desc": [
+    {
+      "id": "heal",
+      "name": "治疗术",
+      "type": "治疗",
+      "range": "300像素",
+      "description": "为目标恢复150点生命值，有25%几率触发1.5倍暴击治疗"
+    },
+    {
+      "id": "speed_boost",
+      "name": "加速",
+      "type": "增益",
+      "range": "300像素",
+      "description": "提升目标50点移动速度，持续5秒"
+    }
+  ],
+  "stats": {
+    "hp": 900,
+    "mp": 220,
+    "attack": 40,
+    "defense": 60,
+    "magicAttack": 90,
+    "magicDefense": 100,
+    "speed": 45
+  }
+}

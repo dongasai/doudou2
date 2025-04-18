@@ -1,0 +1,50 @@
+{
+  "id": 4,
+  "name": "疾风射手",
+  "emoji": "🏹",
+  "type": "archer",
+  "skills": [
+    {
+      "id": "piercing_arrow",
+      "cooldown": 3,
+      "cost": 45,
+      "range": 500,
+      "maxTargets": 3,
+      "bleedValue": 15
+    },
+    {
+      "id": "quick_shot",
+      "cooldown": 2000,
+      "cost": 30,
+      "baseDamage": 90,
+      "criticalRate": 0.3,
+      "criticalMultiplier": 1.8,
+      "range": 450
+    }
+  ],
+  "skills_desc": [
+    {
+      "id": "piercing_arrow",
+      "name": "穿透箭",
+      "type": "范围伤害",
+      "range": "500像素",
+      "description": "发射穿透箭，最多命中3个目标，造成伤害并附加15点流血效果"
+    },
+    {
+      "id": "quick_shot",
+      "name": "快速射击",
+      "type": "单体爆发",
+      "range": "450像素",
+      "description": "快速射击造成90点伤害，30%暴击率，暴击伤害1.8倍"
+    }
+  ],
+  "stats": {
+    "hp": 750,
+    "mp": 180,
+    "attack": 110,
+    "defense": 50,
+    "magicAttack": 40,
+    "magicDefense": 50,
+    "speed": 70
+  }
+}
