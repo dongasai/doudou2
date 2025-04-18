@@ -4,6 +4,7 @@
     <nav>
       <router-link to="/heroes">英雄管理</router-link> |
       <router-link to="/beans">基础配置</router-link> |
+      <router-link to="/chapters">关卡管理</router-link> |
       <router-link to="/skills">技能管理</router-link>
     </nav>
   </div>

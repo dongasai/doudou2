@@ -8,6 +8,7 @@
       <router-link to="/beans">豆豆角色</router-link>
       <router-link to="/heroes">英雄角色</router-link>
       <router-link to="/skills">技能列表</router-link>
+      <router-link to="/chapters">关卡管理</router-link>
     </nav>
     <router-view></router-view>
   </div>

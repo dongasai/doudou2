@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import heroIndex from '@/DesignConfig/data/generate-heroes-index.json'
+import HeroStats from '@/components/HeroStats.vue'
 
 const heroes = ref<any[]>([])
 
@@ -32,8 +33,8 @@ onMounted(async () => {
           <th>ID</th>
           <th>名称</th>
           <th>类型</th>
-          <th>风格</th>
-          <th>特长</th>
+
+
           <th>属性</th>
           <th>技能</th>
         </tr>
@@ -43,12 +44,10 @@ onMounted(async () => {
           <td>{{ hero.id }}</td>
           <td>{{ hero.emoji }} {{ hero.name }}</td>
           <td>{{ hero.type }}</td>
-          <td>{{ hero.style }}</td>
-          <td>{{ hero.specialty }}</td>
+
+
           <td>
-            <div v-for="(value, key) in hero.details.stats" :key="key">
-              {{ key }}: {{ value }}
-            </div>
+            <HeroStats :stats="hero.details.stats" />
           </td>
           <td>
             <div v-for="skill in hero.details.skills_desc" :key="skill.id">

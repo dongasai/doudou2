@@ -7,8 +7,9 @@
     "sync-configs-tovue": "node scripts/sync-config-tovue.js",
     "sync-client": "node scripts/sync-client-configs.js",
     "generate-hero-index": "ts-node scripts/generate-hero-index.ts",
-    "generate-stage-index": "ts-node scripts/generate-stage-index.ts"
-
+    "generate-stage-index": "ts-node scripts/generate-stage-index.ts",
+    "vue-dev": "cd vue && npm run dev",
+    "vue-build": "cd vue && npm run build"
   },
   "devDependencies": {
     "@types/node": "^22.14.1",

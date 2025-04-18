@@ -1,11 +1,12 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import HeroesView from '@/views/HeroesView.vue'
 import BeansView from '@/views/BeansView.vue'
 import SkillsView from '@/views/SkillsView.vue'
+import ChaptersView from '@/views/StagesView.vue'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
@@ -22,11 +23,18 @@ const router = createRouter({
       name: 'beans',
       component: BeansView
     },
+
     {
       path: '/skills',
       name: 'skills',
       component: SkillsView
-    }
+    },
+    {
+      path: '/chapters',
+      name: 'chapters',
+      component: ChaptersView
+    },
+
   ]
 })
 
