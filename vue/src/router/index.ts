@@ -1,15 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import BeansView from '@/views/BeansView.vue'
+import HomeView from '@/views/HomeView.vue'
 import HeroesView from '@/views/HeroesView.vue'
+import BeansView from '@/views/BeansView.vue'
 import SkillsView from '@/views/SkillsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/beans',
-      name: 'beans',
-      component: BeansView
+      path: '/',
+      name: 'home',
+      component: HomeView
     },
     {
       path: '/heroes',
@@ -17,13 +18,14 @@ const router = createRouter({
       component: HeroesView
     },
     {
-      path: '/skills',
-      name: 'skills', 
-      component: SkillsView
+      path: '/beans',
+      name: 'beans',
+      component: BeansView
     },
     {
-      path: '/',
-      redirect: '/beans'
+      path: '/skills',
+      name: 'skills',
+      component: SkillsView
     }
   ]
 })

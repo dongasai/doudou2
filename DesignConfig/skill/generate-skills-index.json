@@ -1,0 +1,89 @@
+{
+  "skills": [
+    {
+      "id": "battle_cry",
+      "name": "战吼",
+      "type": "buff",
+      "targetType": "self",
+      "range": 0,
+      "cooldown": 12000
+    },
+    {
+      "id": "fireball",
+      "name": "火球术",
+      "type": "damage",
+      "targetType": "single",
+      "range": 400,
+      "cooldown": 3000
+    },
+    {
+      "id": "flame_storm",
+      "name": "烈焰风暴",
+      "type": "damage",
+      "targetType": "area",
+      "range": 300,
+      "cooldown": 8000
+    },
+    {
+      "id": "frost_nova",
+      "name": "冰霜新星",
+      "type": "control",
+      "targetType": "area",
+      "range": 250,
+      "cooldown": 12000
+    },
+    {
+      "id": "heal",
+      "name": "治疗术",
+      "type": "heal",
+      "targetType": "single",
+      "range": 300,
+      "cooldown": 5000,
+      "emoji": "💚",
+      "description": "为目标恢复生命值"
+    },
+    {
+      "id": "piercing_arrow",
+      "name": "穿透箭",
+      "type": "damage",
+      "targetType": "multiple",
+      "range": 5,
+      "cooldown": 4
+    },
+    {
+      "id": "quick_shot",
+      "name": "快速远程攻击",
+      "type": "damage",
+      "targetType": "single",
+      "range": 500,
+      "cooldown": 2000
+    },
+    {
+      "id": "shield_bash",
+      "name": "盾击",
+      "type": "control",
+      "targetType": "single",
+      "range": 1,
+      "cooldown": 3,
+      "description": "用盾牌击打目标，造成伤害并有一定几率击晕"
+    },
+    {
+      "id": "speed_boost",
+      "name": "加速",
+      "type": "buff",
+      "targetType": "single",
+      "range": 300,
+      "cooldown": 10000,
+      "emoji": "⚡",
+      "description": "提升目标的移动速度"
+    },
+    {
+      "id": "stun_shot",
+      "name": "眩晕射击",
+      "type": "control",
+      "targetType": "single",
+      "range": 400,
+      "cooldown": 15000
+    }
+  ]
+}

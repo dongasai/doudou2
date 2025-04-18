@@ -9,6 +9,7 @@
     "sync-client": "node scripts/sync-client-configs.js",
     "presync-client": "mkdir -p client/src/data src/data",
     "generate-hero-index": "ts-node scripts/generate-hero-index.ts",
+    "generate-skill-index": "ts-node scripts/generate-skill-index.ts",
     "pregenerate-hero-index": "npm install @types/node --save-dev",
     "generate-stage-index": "ts-node scripts/generate-stage-index.ts"
 
