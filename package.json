@@ -5,7 +5,7 @@
   "scripts": {
     "sync-configs-toclient": "node scripts/sync-configs.js",
     "sync-configs-tovue": "node scripts/sync-config-tovue.js",
-    "presync-configs": "mkdir -p src/data client/src/data",
+    "sync-client": "node scripts/sync-client-configs.js",
     "generate-hero-index": "ts-node scripts/generate-hero-index.ts",
     "generate-stage-index": "ts-node scripts/generate-stage-index.ts"
 
