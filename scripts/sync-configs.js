@@ -17,14 +17,14 @@ const CONFIG = {
     ...BASE_CONFIG,
     // 源目录配置
     src: {
-        data: path.resolve(__dirname, '../src/data'),
-        types: path.resolve(__dirname, '../src/types'),
+        data: path.resolve(__dirname, '../DesignConfig/data'),
+        types: path.resolve(__dirname, '../DesignConfig/types'),
         docs: path.resolve(__dirname, '..')
     },
     // 目标目录配置
     dest: {
-        data: path.resolve(__dirname, '../../client/src/config/data'),
-        types: path.resolve(__dirname, '../../client/src/config/types'),
+        data: path.resolve(__dirname, '../../client/src/DesignConfig/data'),
+        types: path.resolve(__dirname, '../../client/src/DesignConfig/types'),
         docs: path.resolve(__dirname, '../../client')
     },
     // 特定文件映射

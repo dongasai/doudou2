@@ -22,8 +22,8 @@ const CONFIG = {
     },
     // 目标目录配置（服务端）
     dest: {
-        data: path.resolve(__dirname, '../src/data'),
-        types: path.resolve(__dirname, '../src/types'),
+        data: path.resolve(__dirname, '../DesignConfig/data'),
+        types: path.resolve(__dirname, '../DesignConfig/types'),
         docs: path.resolve(__dirname, '..')
     },
     // 特定文件映射

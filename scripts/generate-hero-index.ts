@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import type { Hero } from '@/types/GameHero';
+import type { Hero } from 'DesignConfig/types/GameHero';
 
 interface HeroIndex {
   heroes: Omit<Hero, 'skills' | 'stats' | 'battleStats'>[];
@@ -10,8 +10,8 @@ interface HeroIndex {
 }
 
 
-const HEROES_DIR = path.join(__dirname, '../src/data/heroes');
-const OUTPUT_FILE = path.join(__dirname, '../src/data/generate-heroes-index.json');
+const HEROES_DIR = path.join(__dirname, '../DesignConfig/data/heroes');
+const OUTPUT_FILE = path.join(__dirname, '../DesignConfig/data/generate-heroes-index.json');
 
 async function generateHeroIndex() {
   const files = fs.readdirSync(HEROES_DIR);

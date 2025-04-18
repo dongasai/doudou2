@@ -13,8 +13,8 @@ interface StageIndex {
   }>;
 }
 
-const STAGES_DIR = path.join(__dirname, '../src/data/stage');
-const OUTPUT_FILE = path.join(__dirname, '../src/data/generate-stages-index.json');
+const STAGES_DIR = path.join(__dirname, '../DesignConfig/data/stage');
+const OUTPUT_FILE = path.join(__dirname, '../DesignConfig/data/generate-stages-index.json');
 
 async function generateStageIndex() {
   const files = fs.readdirSync(STAGES_DIR);
