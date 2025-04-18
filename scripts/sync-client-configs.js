@@ -16,8 +16,8 @@ const CONFIG = {
     ...BASE_CONFIG,
     // 源目录配置（客户端）
     src: {
-        data: path.resolve(__dirname, '../client/src/data'),
-        types: path.resolve(__dirname, '../client/src/types'),
+        data: path.resolve(__dirname, '../client/DesignConfig/data'),
+        types: path.resolve(__dirname, '../client/DesignConfig/types'),
         docs: path.resolve(__dirname, '../client')
     },
     // 目标目录配置（服务端）
