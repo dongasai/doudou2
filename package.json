@@ -11,9 +11,10 @@
     "generate-hero-index": "ts-node scripts/generate-hero-index.ts",
     "pregenerate-hero-index": "npm install @types/node --save-dev",
     "generate-stage-index": "ts-node scripts/generate-stage-index.ts"
+
   },
   "devDependencies": {
-    "@types/node": "^22.14.0",
+    "@types/node": "^22.14.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   }

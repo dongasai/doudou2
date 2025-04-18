@@ -19,12 +19,16 @@ const CONFIG = {
     src: {
         data: path.resolve(__dirname, '../DesignConfig/data'),
         types: path.resolve(__dirname, '../DesignConfig/types'),
+        skill: path.resolve(__dirname, '../DesignConfig/skill'),
+
         docs: path.resolve(__dirname, '..')
     },
     // 目标目录配置
     dest: {
         data: path.resolve(__dirname, '../vue/src/DesignConfig/data'),
-        types: path.resolve(__dirname, '../vue/src/DesignConfig/types')
+        types: path.resolve(__dirname, '../vue/src/DesignConfig/types'),
+        skill: path.resolve(__dirname, '../vue/src/DesignConfig/skill')
+
     },
     // 特定文件映射
     fileMappings: [
@@ -56,6 +60,13 @@ function main() {
             syncDir(CONFIG.src.types, CONFIG.dest.types, CONFIG.extensions.types);
         } else {
             console.warn(`⚠️ 类型源目录不存在: ${CONFIG.src.types}`);
+        }
+        // 同步 Skill 文件
+        if (fs.existsSync(CONFIG.src.skill)) {
+            console.log('\n📂 同步类型文件...');
+            syncDir(CONFIG.src.skill, CONFIG.dest.skill, CONFIG.extensions.skill);
+        } else {
+            console.warn(`⚠️ 类型源目录不存在: ${CONFIG.src.skill}`);
         }
 
         // 同步特定映射文件

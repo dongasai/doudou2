@@ -6,7 +6,8 @@ const CONFIG = {
     // 需要同步的文件类型
     extensions: {
         data: ['.json', '.yaml', '.yml'],
-        types: ['.ts']
+        types: ['.ts'],
+        skill: ['.json']
     },
     // 需要排除的目录或文件
     exclude: ['.git', 'node_modules', '.DS_Store']
